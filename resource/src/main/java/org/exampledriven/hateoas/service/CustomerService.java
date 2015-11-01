@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class CustomerService {
     List<Customer> customers;
-    AtomicInteger id = new AtomicInteger();
 
     public CustomerService() {
         customers = new LinkedList<>();
@@ -26,14 +25,6 @@ public class CustomerService {
     public Customer getCustomer(int id) {
         Optional<Customer> customer = customers.stream().filter(customer1 -> customer1.getId() == id).findFirst();
         return customer.get();
-    }
-
-    public Customer createCustomer(Customer customer) {
-        return new Customer(id.incrementAndGet(), customer.getFirstName(), customer.getLastName());
-    }
-
-    public void deleteCustomer(int id) {
-
     }
 
 }

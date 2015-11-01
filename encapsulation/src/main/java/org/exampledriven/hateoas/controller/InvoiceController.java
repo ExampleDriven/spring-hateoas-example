@@ -1,5 +1,6 @@
 package org.exampledriven.hateoas.controller;
 
+import org.exampledriven.hateoas.controller.assembler.InvoiceResourceAssembler;
 import org.exampledriven.hateoas.domain.Invoice;
 import org.exampledriven.hateoas.resource.InvoiceListResource;
 import org.exampledriven.hateoas.resource.InvoiceResource;
@@ -14,20 +15,22 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api", produces = "application/hal+json")
+@RequestMapping(value = "/api/invoice", produces = "application/hal+json")
 public class InvoiceController {
 
     @Autowired
     private InvoiceService invoiceService;
 
-    @RequestMapping(value = "/invoice", method = RequestMethod.GET)
+    private InvoiceResourceAssembler invoiceResourceAssembler = new InvoiceResourceAssembler();
+
+    @RequestMapping(method = RequestMethod.GET)
     public InvoiceListResource getInvoiceByCustomerId(@RequestParam("customerId") int customerId) {
 
         return invoiceToResource(invoiceService.getInvoiceByCustomerId(customerId), customerId);
 
     }
 
-    @RequestMapping(value = "/invoice/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public InvoiceResource getInvoiceById(@PathVariable int id) {
 
         Invoice invoice = invoiceService.getInvoiceById(id);
@@ -40,20 +43,14 @@ public class InvoiceController {
         InvoiceListResource invoiceListResource = new InvoiceListResource();
         invoiceListResource.add(linkTo(methodOn(InvoiceController.class).getInvoiceByCustomerId(customerId)).withSelfRel());
 
-        List<InvoiceResource> customerResources = invoiceResources.stream().map(InvoiceController::invoiceToResource).collect(Collectors.toList());
+        List<InvoiceResource> customerResources = invoiceResourceAssembler.toResources(invoiceResources);
 
         invoiceListResource.setInvoiceResourceList(customerResources);
 
         return invoiceListResource;
     }
 
-    private static InvoiceResource invoiceToResource(Invoice invoice) {
-        Link selfLink = linkTo(methodOn(InvoiceController.class).getInvoiceById(invoice.getId())).withSelfRel();
-
-        InvoiceResource invoiceResource = new InvoiceResource();
-        invoiceResource.setInvoice(invoice);
-        invoiceResource.add(selfLink);
-
-        return invoiceResource;
+    private InvoiceResource invoiceToResource(Invoice invoice) {
+        return invoiceResourceAssembler.toResource(invoice);
     }
 }

@@ -3,6 +3,7 @@ package org.exampledriven.hateoas.controller;
 import org.exampledriven.hateoas.domain.Invoice;
 import org.exampledriven.hateoas.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -14,20 +15,21 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api", produces = "application/hal+json")
+@RequestMapping(value = "/api/invoice", produces = "application/hal+json")
+@ExposesResourceFor(Invoice.class)
 public class InvoiceController {
 
     @Autowired
     private InvoiceService invoiceService;
 
-    @RequestMapping(value = "/invoice", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public Resources<Resource<Invoice>> getInvoiceByCustomerId(@RequestParam("customerId") int customerId) {
 
         return invoiceToResource(invoiceService.getInvoiceByCustomerId(customerId), customerId);
 
     }
 
-    @RequestMapping(value = "/invoice/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Resource<Invoice> getInvoiceById(@PathVariable int id) {
 
         Invoice invoice = invoiceService.getInvoiceById(id);
