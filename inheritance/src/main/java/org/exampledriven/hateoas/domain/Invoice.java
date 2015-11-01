@@ -3,7 +3,6 @@ package org.exampledriven.hateoas.domain;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
-@Relation(value = "foo", collectionRelation = "bar")
 public class Invoice extends ResourceSupport {
     private int invoiceId;
     private int price;

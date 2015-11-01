@@ -5,7 +5,6 @@ import org.springframework.hateoas.core.Relation;
 
 import java.util.List;
 
-@Relation(value = "foo2", collectionRelation = "bar2")
 public class InvoiceList extends ResourceSupport {
 
     private List<Invoice> invoiceList;
