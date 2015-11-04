@@ -22,10 +22,21 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Resources<Resource<Invoice>> getInvoiceByCustomerId(@RequestParam("customerId") int customerId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/customer/{customerId}")
+    public Resources<Resource<Invoice>> getInvoiceByCustomerId(@PathVariable int customerId) {
 
-        return invoiceToResource(invoiceService.getInvoiceByCustomerId(customerId), customerId);
+        Link selfLink = linkTo(methodOn(InvoiceController.class).getInvoiceByCustomerId(customerId)).withSelfRel();
+
+        return invoiceToResource(invoiceService.getInvoiceByCustomerId(customerId), selfLink);
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Resources<Resource<Invoice>> getAllInvoiceByCustomerId() {
+
+        Link selfLink = linkTo(methodOn(InvoiceController.class).getAllInvoiceByCustomerId()).withSelfRel();
+
+        return invoiceToResource(invoiceService.findAll(), selfLink);
 
     }
 
@@ -37,9 +48,7 @@ public class InvoiceController {
 
     }
 
-    private Resources<Resource<Invoice>> invoiceToResource(List<Invoice> invoices, int customerId) {
-
-        Link selfLink = linkTo(methodOn(InvoiceController.class).getInvoiceByCustomerId(customerId)).withSelfRel();
+    private Resources<Resource<Invoice>> invoiceToResource(List<Invoice> invoices, Link selfLink) {
 
         List<Resource<Invoice>> invoiceResources = invoices.stream().map(InvoiceController::invoiceToResource).collect(Collectors.toList());
 
@@ -52,4 +61,5 @@ public class InvoiceController {
 
         return new Resource<>(invoice, selfLink);
     }
+
 }

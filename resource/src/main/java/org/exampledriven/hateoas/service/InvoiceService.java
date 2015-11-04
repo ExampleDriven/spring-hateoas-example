@@ -3,6 +3,7 @@ package org.exampledriven.hateoas.service;
 import org.exampledriven.hateoas.domain.Invoice;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,4 +28,7 @@ public class InvoiceService {
         return invoiceList.stream().filter(invoice1 -> invoice1.getId() == id).findFirst().get();
     }
 
+    public List<Invoice> findAll() {
+        return new ArrayList<>(invoiceList);
+    }
 }
