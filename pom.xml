@@ -18,4 +18,20 @@
     <name>spring-hateoas-example</name>
     <description>Spring HATEOAS Example</description>
 
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.0.0</version>
+                <configuration>
+                    <repoToken>E7loBw0qn1zbv121ClS1joPvAjIG9AUii</repoToken>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
 </project>
