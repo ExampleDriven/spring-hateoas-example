@@ -11,3 +11,4 @@ This example covers the following :
 - Using Resource, Resources
 - @ExposesResourceFor
 - ControllerLinkBuilder.linkTo()
+- ResourceAssemblerSupport
