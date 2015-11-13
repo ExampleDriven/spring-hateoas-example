@@ -4,11 +4,10 @@
 
 This is the source code for the blog post
 
-http://exampledriven.wordpress.com/
+https://exampledriven.wordpress.com/2015/11/13/spring-hateoas-example/
 
 This example covers the following :
 
-- Using Resource, Resources
+- Resource, Resources
 - @ExposesResourceFor
-- ControllerLinkBuilder.linkTo()
-- ResourceAssemblerSupport
+- ControllerLinkBuilder.linkTo()- ResourceAssemblerSupport

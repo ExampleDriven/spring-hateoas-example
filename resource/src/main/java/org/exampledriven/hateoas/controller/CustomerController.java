@@ -49,7 +49,7 @@ public class CustomerController {
     private Resource<Customer> customerToResource(Customer customer) {
         Link selfLink   = linkTo(methodOn(CustomerController.class).getCustomer(customer.getId())).withSelfRel();
 
-        Link allInvoiceLink = entityLinks.linkToCollectionResource(Invoice.class).withRel("all-invoice");
+        Link allInvoiceLink = entityLinks.linkToCollectionResource(Invoice.class).withRel("all-invoices");
         Link invoiceLink = linkTo(methodOn(InvoiceController.class).getInvoiceByCustomerId(customer.getId())).withRel("invoice");
 
         return new Resource<>(customer, selfLink,  invoiceLink, allInvoiceLink);
